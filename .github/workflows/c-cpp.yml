@@ -33,10 +33,13 @@ jobs:
     - name: Coverage (gcov/lcov)
       run: |
         rm -rf build
+        gcc -v
         cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Debug \
               -DCMAKE_CXX_FLAGS="--coverage" -DCMAKE_C_FLAGS="--coverage"
         cmake --build build --parallel
         ctest --output-on-failure --test-dir build
+        gcov -v
+        lcov -v
         lcov --capture --directory build --output-file coverage.info
         lcov --remove coverage.info '/usr/*' '*/googletest/*' --output-file coverage.info
         genhtml coverage.info --output-directory coverage_html
