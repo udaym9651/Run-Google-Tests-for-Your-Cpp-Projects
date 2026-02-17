@@ -2,13 +2,14 @@
 cmake_minimum_required(VERSION 3.5)
 
 # Set the project name
-project (optimizer)
+project (Run-Google-Tests-for-Your-Cpp-Projects)
 
-# add googletest subdirectory
-add_subdirectory(googletest)
-
-# this is so we can #include <gtest/gtest.h> 
-include_directories(googletest/include)
+include(FetchContent)
+FetchContent_Declare(
+  googletest
+  URL https://github.com/google/googletest/archive/refs/tags/v1.17.0.zip
+)
+FetchContent_MakeAvailable(googletest)
 
 # add header files in the lib
 include_directories(lib) 
