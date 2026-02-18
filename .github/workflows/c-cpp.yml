@@ -13,7 +13,7 @@ jobs:
     - uses: actions/checkout@v4
 
     - name: Install deps
-      run: sudo apt-get update && sudo apt-get install -y ninja-build cmake g++
+      run: sudo apt-get update && sudo apt-get install -y ninja-build cmake g++ lcov
 
     - name: Configure
       run: cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release
@@ -38,12 +38,7 @@ jobs:
               -DCMAKE_CXX_FLAGS="--coverage" -DCMAKE_C_FLAGS="--coverage"
         cmake --build build --parallel
         ctest --output-on-failure --test-dir build
-        
-        curl -LO https://github.com/linux-test-project/lcov/releases/download/v2.4/lcov-2.4.tar.gz
-        tar -xzf lcov-2.4.tar.gz
-        cd lcov-2.4
-        sudo make install
-
+        apt-cache madison lcov
         gcov -v
         lcov -v
         lcov --capture --directory build --output-file coverage.info
