@@ -18,6 +18,7 @@ include_directories(lib)
 set(SOURCES
     src/main.cpp
     src/product.cpp
+    src/multiply/multiply.cpp
 )
 
 # Add an executable with the above sources
