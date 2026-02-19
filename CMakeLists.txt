@@ -19,6 +19,10 @@ set(SOURCES
     src/main.cpp
     src/product.cpp
 )
+set(TESTS
+    src/utest-product.cpp
+    utest_multiply.cpp
+)
 
 # Add an executable with the above sources
 add_executable(run_opt ${SOURCES})
@@ -33,9 +37,7 @@ target_include_directories(run_opt
 
 
 enable_testing()
-add_executable(run_opt_test
-  src/product.cpp tests/utest-product.cpp
-)
+add_executable(run_opt_test ${TESTS})
 
 target_link_libraries(run_opt_test GTest::gtest_main)
 
