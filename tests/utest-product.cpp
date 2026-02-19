@@ -1,5 +1,6 @@
 #include "product.h"
 #include <gtest/gtest.h>
+#include <cassert>
 
 // https://google.github.io/googletest/reference/assertions.html
 
@@ -26,6 +27,18 @@ namespace
     {
         Product p;
         EXPECT_GT(p.computeB(10, 20, 30), p.computeA(10, 10));
+    }
+
+    TEST(PersonTestSuite, functionA)
+    {
+        Product p;
+        assert(p.computeA(10, 20) == 200);
+    }
+
+    TEST(PersonTestSuite, functionA)
+    {
+        Product p;
+        assert(p.computeA(10, -20) == 200);
     }
 
 }
