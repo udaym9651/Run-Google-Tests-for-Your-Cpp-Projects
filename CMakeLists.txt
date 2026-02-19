@@ -2,7 +2,7 @@
 cmake_minimum_required(VERSION 3.5)
 
 # Set the project name
-project (Run-Google-Tests-for-Your-Cpp-Projects)
+project (Googletest_POC)
 
 include(FetchContent)
 FetchContent_Declare(
@@ -19,9 +19,6 @@ set(SOURCES
     src/main.cpp
     src/product.cpp
 )
-set(TESTS
-    tests/utest-product.cpp
-)
 
 # Add an executable with the above sources
 add_executable(run_opt ${SOURCES})
@@ -36,7 +33,9 @@ target_include_directories(run_opt
 
 
 enable_testing()
-add_executable(run_opt_test ${TESTS})
+add_executable(run_opt_test
+  src/product.cpp tests/utest-product.cpp
+)
 
 target_link_libraries(run_opt_test GTest::gtest_main)
 
