@@ -29,16 +29,16 @@ namespace
         EXPECT_GT(p.computeB(10, 20, 30), p.computeA(10, 10));
     }
 
-    TEST(PersonTestSuite, functionA)
+    TEST(PersonTestSuite, functionC)
     {
         Product p;
-        assert(p.computeA(10, 20) == 200);
+        EXPECT_EQ(p.computeA(10, 20), 200);
     }
 
-    TEST(PersonTestSuite, functionA)
+    TEST(PersonTestSuite, functionD)
     {
         Product p;
-        assert(p.computeA(10, -20) == 200);
+        EXPECT_EQ(p.computeB(10, -20, 0), 200);
     }
 
 }
