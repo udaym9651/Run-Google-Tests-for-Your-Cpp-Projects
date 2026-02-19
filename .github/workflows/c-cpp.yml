@@ -1,106 +1,52 @@
-name: CI (Build + Test + LCOV Coverage)
+name: C/C++ CI
 
 on:
   push:
-    branches: [ "main", "master" ]
+    branches: [ "main" ]
   pull_request:
-    branches: [ "main", "master" ]
-  workflow_dispatch:
+    branches: [ "main" ]
 
 jobs:
-  coverage:
-    runs-on: ubuntu-24.04
-
-    env:
-      BUILD_DIR: build
-      # Force lcov/geninfo to use the GCC-matching gcov on Ubuntu 24.04 (GCC 13)
-      GCOV: gcov-13
-
+  build-and-test:
+    runs-on: ubuntu-22.04
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+    - uses: actions/checkout@v4
 
-      - name: Install dependencies (GCC, CMake, LCOV)
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y --no-install-recommends \
-            gcc-13 g++-13 \
-            cmake ninja-build \
-            lcov \
-            gcovr
+    - name: Install deps
+      run: sudo apt-get update && sudo apt-get install -y ninja-build cmake g++ lcov=1.15-1
 
-          gcc-13 --version
-          g++-13 --version
-          lcov --version
-          ${GCOV} --version
+    - name: Configure
+      run: cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release
 
-      # Optional: speed up builds (CMake cache)
-      - name: Cache build directory
-        uses: actions/cache@v4
-        with:
-          path: |
-            ${{ env.BUILD_DIR }}
-          key: ${{ runner.os }}-cmake-${{ hashFiles('**/CMakeLists.txt') }}
-          restore-keys: |
-            ${{ runner.os }}-cmake-
+    - name: Build
+      run: cmake --build build --parallel
 
-      - name: Configure (CMake + coverage flags)
-        run: |
-          cmake -S . -B "${BUILD_DIR}" -G Ninja \
-            -DCMAKE_BUILD_TYPE=Debug \
-            -DCMAKE_C_COMPILER=gcc-13 \
-            -DCMAKE_CXX_COMPILER=g++-13 \
-            -DCMAKE_C_FLAGS="--coverage -O0 -g -fno-inline -fno-optimize-sibling-calls" \
-            -DCMAKE_CXX_FLAGS="--coverage -O0 -g -fno-inline -fno-optimize-sibling-calls" \
-            -DCMAKE_EXE_LINKER_FLAGS="--coverage" \
-            -DCMAKE_SHARED_LINKER_FLAGS="--coverage"
+    - name: Test (Gtest)
+      run: ctest --output-on-failure --test-dir build -j $(nproc) --output-junit gtest.xml
 
-      - name: Build
-        run: |
-          cmake --build "${BUILD_DIR}" --parallel
+    - name: Upload Test Results
+      uses: actions/upload-artifact@v4
+      with:
+        name: gtest
+        path: build/gtest.xml
 
-      - name: Run tests
-        run: |
-          ctest --test-dir "${BUILD_DIR}" --output-on-failure
+    - name: Coverage (gcov/lcov)
+      run: |
+        rm -rf build
+        gcc -v
+        cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Debug \
+              -DCMAKE_CXX_FLAGS="--coverage" -DCMAKE_C_FLAGS="--coverage"
+        cmake --build build --parallel
+        ctest --output-on-failure --test-dir build
+        apt-cache madison lcov
+        gcov -v
+        lcov --version
+        lcov --capture --directory build --output-file coverage.info
+        lcov --remove coverage.info '/usr/*' '*/googletest/*' --output-file coverage.info
+        genhtml coverage.info --output-directory coverage_html
 
-      - name: Capture LCOV
-        run: |
-          # Clean old counters (important for PR builds / reused runners)
-          lcov --directory "${BUILD_DIR}" --zerocounters || true
-
-          # Capture coverage
-          lcov --capture \
-               --directory "${BUILD_DIR}" \
-               --output-file coverage.info \
-               --rc lcov_branch_coverage=1 \
-               --gcov-tool "${GCOV}"
-
-          # Remove noise (system + deps + tests)
-          lcov --remove coverage.info \
-               '/usr/*' \
-               '*/_deps/*' \
-               '*/external/*' \
-               '*/third_party/*' \
-               '*/tests/*' \
-               --output-file coverage.filtered.info \
-               --rc lcov_branch_coverage=1
-
-          # Show summary in logs
-          lcov --summary coverage.filtered.info --rc lcov_branch_coverage=1
-
-      - name: Generate HTML report
-        run: |
-          genhtml coverage.filtered.info \
-            --output-directory coverage_html \
-            --branch-coverage \
-            --title "LCOV Coverage Report"
-
-      - name: Upload LCOV artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: lcov-coverage
-          path: |
-            coverage.info
-            coverage.filtered.info
-            coverage_html
-          if-no-files-found: error
+    - name: Upload Coverage HTML
+      uses: actions/upload-artifact@v4
+      with:
+        name: coverage_html
+        path: coverage_html
