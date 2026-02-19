@@ -1,7 +1,7 @@
 #include <cassert>
 #include <iostream>
 #include "product.h"
-namepspace
+namespace
 {
 Product p;
 static_assert(p.computeA(-10, 20) == -200);
