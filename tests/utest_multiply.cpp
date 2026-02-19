@@ -1,5 +1,6 @@
-#include "product.h"
 #include <cassert>
+#include <iostream>
+#include "product.h"
 int main()
 {
 Product p;
