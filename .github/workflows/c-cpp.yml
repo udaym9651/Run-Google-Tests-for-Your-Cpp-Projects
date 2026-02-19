@@ -34,6 +34,7 @@ jobs:
 
     - name: Coverage (gcov/lcov)
       run: |
+        find . -name '*.gcda' -o -name '*.gcno' -delete
         rm -rf build
         gcc -v
         cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Debug \
