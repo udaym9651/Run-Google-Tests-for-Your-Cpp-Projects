@@ -1,0 +1,48 @@
+name: Coverage
+
+on: [push, pull_request]
+
+jobs:
+  coverage:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install LLVM
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y clang llvm
+
+      - name: Build with Coverage Flags
+        run: |
+          mkdir build
+          cd build
+          clang++ -fprofile-instr-generate -fcoverage-mapping \
+            ../src/*.cpp -o app
+
+      - name: Run Tests (Generate .profraw)
+        run: |
+          cd build
+          LLVM_PROFILE_FILE="coverage.profraw" ./app
+
+      - name: Convert .profraw → .profdata
+        run: |
+          cd build
+          llvm-profdata merge -sparse coverage.profraw -o coverage.profdata
+
+      - name: Generate HTML Coverage Report
+        run: |
+          cd build
+          llvm-cov show ./app \
+            -instr-profile=coverage.profdata \
+            -format=html \
+            -output-dir=coverage_html \
+            -name=.*
+
+      - name: Upload Coverage Report Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: llvm-cov-report
+          path: build/coverage_html
