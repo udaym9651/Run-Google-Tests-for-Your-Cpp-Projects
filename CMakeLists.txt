@@ -20,8 +20,8 @@ set(SOURCES
     src/product.cpp
 )
 set(TESTS
-    src/utest-product.cpp
-    utest_multiply.cpp
+    tests/utest-product.cpp
+    tests/utest_multiply.cpp
 )
 
 # Add an executable with the above sources
