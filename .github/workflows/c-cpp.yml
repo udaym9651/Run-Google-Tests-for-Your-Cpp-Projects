@@ -34,7 +34,7 @@ jobs:
       run: |
         rm -rf build
         gcc -v
-        cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Debug \
+        CXXFLAGS="-O0 -g --coverage" LDFLAGS="--coverage" cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Debug \
               -DCMAKE_CXX_FLAGS="--coverage" -DCMAKE_C_FLAGS="--coverage"
         cmake --build build --parallel
         ctest --output-on-failure --test-dir build
