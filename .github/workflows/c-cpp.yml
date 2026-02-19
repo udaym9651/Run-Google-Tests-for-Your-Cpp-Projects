@@ -40,7 +40,7 @@ jobs:
         ctest --output-on-failure --test-dir build
         apt-cache madison lcov
         gcov -v
-        lcov -v
+        lcov --version
         lcov --capture --directory build --output-file coverage.info
         lcov --remove coverage.info '/usr/*' '*/googletest/*' --output-file coverage.info
         genhtml coverage.info --output-directory coverage_html
