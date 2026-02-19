@@ -1,5 +1,6 @@
 #include <cassert>
 #include <iostream>
+#include <gtest/gtest.h>
 #include "product.h"
 
 
