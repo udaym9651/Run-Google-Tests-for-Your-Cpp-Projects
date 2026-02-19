@@ -8,15 +8,15 @@ on:
 
 jobs:
   build-and-test:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-22.04
     steps:
     - uses: actions/checkout@v4
 
     - name: Install deps
-      run: sudo apt-get update && sudo apt-get install -y ninja-build cmake g++ lcov
+      run: sudo apt-get update && sudo apt-get install -y ninja-build cmake g++ lcov=1.15-1
 
     - name: Configure
-      run: CXXFLAGS="-O0 -g --coverage" LDFLAGS="--coverage" cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release
+      run: cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release
 
     - name: Build
       run: cmake --build build --parallel
@@ -34,7 +34,7 @@ jobs:
       run: |
         rm -rf build
         gcc -v
-        CXXFLAGS="-O0 -g --coverage" LDFLAGS="--coverage" cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Debug \
+        cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Debug \
               -DCMAKE_CXX_FLAGS="--coverage" -DCMAKE_C_FLAGS="--coverage"
         cmake --build build --parallel
         ctest --output-on-failure --test-dir build
