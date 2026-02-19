@@ -20,7 +20,7 @@ jobs:
           mkdir build
           cd build
           clang++ -fprofile-instr-generate -fcoverage-mapping \
-            -Ilib ../src/*.cpp -o app
+            -I../lib ../src/*.cpp -o app
 
       - name: Run Tests (Generate .profraw)
         run: |
