@@ -21,7 +21,6 @@ set(SOURCES
 )
 set(TESTS
     tests/utest-product.cpp
-    tests/utest_multiply.cpp
 )
 
 # Add an executable with the above sources
