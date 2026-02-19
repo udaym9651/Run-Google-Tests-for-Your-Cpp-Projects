@@ -10,7 +10,7 @@ namespace
         Product p;
         assert(p.computeA(-10, 20) == -200);
     }
-TEST(PersonTestSuite, functionA)
+TEST(PersonTestSuite, functionB)
     {
         Product p;
         assert(p.computeB(-10, 20, 0) == -100);
