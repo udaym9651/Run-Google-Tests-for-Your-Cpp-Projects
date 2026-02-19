@@ -1,4 +1,5 @@
 #include "product.h"
+#include <cassert>
 namespace
 {
 Product p;
