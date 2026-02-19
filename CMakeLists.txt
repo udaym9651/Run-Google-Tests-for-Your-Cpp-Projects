@@ -37,7 +37,7 @@ enable_testing()
 add_executable(run_opt_test
   src/product.cpp
   src/multiply/multiply.cpp
-  #tests/utest-product.cpp
+  tests/utest-product.cpp
 )
 
 target_link_libraries(run_opt_test GTest::gtest_main)
