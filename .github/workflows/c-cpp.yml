@@ -16,7 +16,7 @@ jobs:
       run: sudo apt-get update && sudo apt-get install -y ninja-build cmake g++ lcov
 
     - name: Configure
-      run: cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release
+      run: CXXFLAGS="-O0 -g --coverage" LDFLAGS="--coverage" cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release
 
     - name: Build
       run: cmake --build build --parallel
