@@ -6,12 +6,12 @@
 
 namespace
 {
- TEST(PersonTestSuite, functionA)
+ TEST(PersonTestSuite2, functionA)
     {
         Product p;
         assert(p.computeA(-10, 20) == -200);
     }
-TEST(PersonTestSuite, functionB)
+TEST(PersonTestSuite2, functionB)
     {
         Product p;
         assert(p.computeB(-10, 20, 0) == -100);
