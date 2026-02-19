@@ -29,4 +29,10 @@ namespace
         EXPECT_GT(p.computeB(10, 20, 30), p.computeA(10, 10));
     }
 
+    TEST(PersonTestSuite, functionC)
+    {
+        Product p;
+        EXPECT_EQ(p.computeC(10, 20, 30, 1), 6000);
+    }
+
 }
