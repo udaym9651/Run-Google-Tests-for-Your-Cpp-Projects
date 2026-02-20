@@ -17,9 +17,7 @@ jobs:
 
 
       - name: Build with Coverage Flags
-        run: |          
-          mkdir build
-          cd build          
+        run: |         
           git clone https://github.com/google/googletest.git
           cmake -S googletest -B gtest-build -DCMAKE_CXX_COMPILER=clang++
           cmake --build gtest-build -j
