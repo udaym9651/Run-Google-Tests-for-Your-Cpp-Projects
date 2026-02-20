@@ -23,6 +23,7 @@ jobs:
           cmake --build build -j
           pwd
           ls
+          find . -name "gtest.h"
           clang++ -fprofile-instr-generate -fcoverage-mapping \
             -Ilib src/*.cpp src/**/*.cpp -o app
           clang++ -fprofile-instr-generate -fcoverage-mapping \
