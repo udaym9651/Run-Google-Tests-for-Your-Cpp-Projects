@@ -27,7 +27,7 @@ jobs:
             -I../lib ../src/*.cpp ../src/**/*.cpp -o app
           clang++ -fprofile-instr-generate -fcoverage-mapping \
              -I../lib -Igoogletest/googletest/include \
-             -L gtest-build/lib \
+             -L googletest/build/lib \
               ../src/*.cpp ../src/**/*.cpp ../tests/utest-product.cpp -o tests \
              -lgtest -lgtest_main -pthread
 
