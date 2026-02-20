@@ -28,7 +28,7 @@ jobs:
           clang++ -fprofile-instr-generate -fcoverage-mapping \
             -I../lib ../src/*.cpp ../src/**/*.cpp -o app
           clang++ -fprofile-instr-generate -fcoverage-mapping \
-            -I../lib -I../googletest ../tests/utest-product.cpp -lgtest -lgtest_main -pthread -o tests -lgtest -lgtest_main -pthread
+            -I../lib ../tests/utest-product.cpp -o tests -lgtest -lgtest_main -pthread
 
 
       - name: Run Tests (Generate .profraw)
