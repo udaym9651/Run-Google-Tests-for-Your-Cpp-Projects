@@ -23,11 +23,10 @@ jobs:
           cmake --build build -j
           pwd
           ls
-          cd build
           clang++ -fprofile-instr-generate -fcoverage-mapping \
             -I../lib ../src/*.cpp ../src/**/*.cpp -o app
           clang++ -fprofile-instr-generate -fcoverage-mapping \
-          -I../lib -I../googletest ../tests/utest-product.cpp -o tests -lgtest -lgtest_main -pthread
+          -I../lib -I../googletest -I../build ../tests/utest-product.cpp -o tests -lgtest -lgtest_main -pthread
 
 
       - name: Run Tests (Generate .profraw)
