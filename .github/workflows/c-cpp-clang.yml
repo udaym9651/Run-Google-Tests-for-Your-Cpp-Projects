@@ -32,18 +32,15 @@ jobs:
 
       - name: Run Tests (Generate .profraw)
         run: |
-          cd build
           LLVM_PROFILE_FILE="coverage.profraw" ./app
           LLVM_PROFILE_FILE="tests.profraw" ./tests
 
       - name: Convert .profraw → .profdata
         run: |
-          cd build
           llvm-profdata merge -sparse coverage.profraw tests.profraw -o coverage.profdata
 
       - name: Generate HTML Coverage Report
         run: |
-          cd build
           llvm-cov show ./app \
             -instr-profile=coverage.profdata \
             -format=html \
@@ -54,4 +51,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: llvm-cov-report
-          path: build/coverage_html
+          path: coverage_html
