@@ -13,8 +13,13 @@ jobs:
       - name: Install LLVM
         run: |
           sudo apt-get update
-          sudo apt-get install -y clang llvm
-          git clone https://github.com/google/googletest.git
+          sudo apt-get install -y clang llvm libgtest-dev
+          
+          cd /usr/src/gtest
+          sudo cmake -S . -B build
+          sudo cmake --build build
+          sudo cp build/lib/*.a /usr/local/lib/
+
 
       - name: Build with Coverage Flags
         run: |
