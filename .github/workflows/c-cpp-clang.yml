@@ -15,8 +15,8 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y clang llvm libgtest-dev
           cd /usr/src/gtest
-          sudo cmake -S . -B build
-          sudo cmake --build build
+          sudo cmake -S . -B build -DCMAKE_CXX_COMPILER=clang++
+          sudo cmake --build build -DCMAKE_CXX_COMPILER=clang++
           sudo cp build/lib/*.a /usr/local/lib/
 
 
@@ -25,21 +25,21 @@ jobs:
           mkdir build
           cd build
           clang++ -fprofile-instr-generate -fcoverage-mapping \
-            -I../lib ../src/*.cpp ../src/**/*.cpp ../tests/utest-product.cpp -o app -lgtest -lgtest_main -pthread
-          #clang++ -fprofile-instr-generate -fcoverage-mapping \
-           # -I../lib -I../src ../tests/utest-product.cpp -o tests -lgtest -pthread
+            -I../lib ../src/*.cpp ../src/**/*.cpp -o app
+          clang++ -fprofile-instr-generate -fcoverage-mapping \
+            -I../lib ../tests/utest-product.cpp -o tests -lgtest -lgtest_main -pthread
 
 
       - name: Run Tests (Generate .profraw)
         run: |
           cd build
           LLVM_PROFILE_FILE="coverage.profraw" ./app
-          #LLVM_PROFILE_FILE="tests.profraw" ./tests
+          LLVM_PROFILE_FILE="tests.profraw" ./tests
 
       - name: Convert .profraw → .profdata
         run: |
           cd build
-          llvm-profdata merge -sparse coverage.profraw -o coverage.profdata
+          llvm-profdata merge -sparse coverage.profraw tests.profraw -o coverage.profdata
 
       - name: Generate HTML Coverage Report
         run: |
