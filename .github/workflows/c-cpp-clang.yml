@@ -22,9 +22,9 @@ jobs:
           cmake -S googletest -B gtest-build -DCMAKE_CXX_COMPILER=clang++
           cmake --build gtest-build -j
           clang++ -fprofile-instr-generate -fcoverage-mapping \
-            -I../lib ../src/*.cpp ../src/**/*.cpp -o app
+            -Ilib src/*.cpp src/**/*.cpp -o app
           clang++ -fprofile-instr-generate -fcoverage-mapping \
-            -I../lib -Igtest-build ../tests/utest-product.cpp -o tests -lgtest -lgtest_main -pthread
+            -Ilib -Igtest-build tests/utest-product.cpp -o tests -lgtest -lgtest_main -pthread
 
 
       - name: Run Tests (Generate .profraw)
