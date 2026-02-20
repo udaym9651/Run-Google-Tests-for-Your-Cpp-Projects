@@ -19,11 +19,11 @@ jobs:
           sudo cmake -S . -B build
           sudo cmake --build build
           sudo cp build/lib/*.a /usr/local/lib/
-          rm -rf build
 
 
       - name: Build with Coverage Flags
         run: |
+          rm -rf build
           mkdir build
           cd build
           clang++ -fprofile-instr-generate -fcoverage-mapping \
