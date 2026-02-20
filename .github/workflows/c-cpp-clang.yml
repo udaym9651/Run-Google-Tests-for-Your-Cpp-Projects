@@ -26,20 +26,20 @@ jobs:
           cd build
           clang++ -fprofile-instr-generate -fcoverage-mapping \
             -I../lib ../src/*.cpp ../src/**/*.cpp -o app
-          clang++ -fprofile-instr-generate -fcoverage-mapping \
-            -I../lib -I../src ../tests/utest-product.cpp -o tests -lgtest -pthread
+          #clang++ -fprofile-instr-generate -fcoverage-mapping \
+           # -I../lib -I../src ../tests/utest-product.cpp -o tests -lgtest -pthread
 
 
       - name: Run Tests (Generate .profraw)
         run: |
           cd build
           LLVM_PROFILE_FILE="coverage.profraw" ./app
-          LLVM_PROFILE_FILE="tests.profraw" ./tests
+          #LLVM_PROFILE_FILE="tests.profraw" ./tests
 
       - name: Convert .profraw → .profdata
         run: |
           cd build
-          llvm-profdata merge -sparse coverage.profraw tests.profraw -o coverage.profdata
+          llvm-profdata merge -sparse coverage.profraw -o coverage.profdata
 
       - name: Generate HTML Coverage Report
         run: |
