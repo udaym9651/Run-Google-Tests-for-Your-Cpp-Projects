@@ -21,13 +21,11 @@ jobs:
           git clone https://github.com/google/googletest.git
           cmake -S googletest -B build -DCMAKE_CXX_COMPILER=clang++
           cmake --build build -j
-          pwd
-          ls
-          find . -name "gtest.h"
           clang++ -fprofile-instr-generate -fcoverage-mapping \
             -Ilib src/*.cpp src/**/*.cpp -o app
           clang++ -fprofile-instr-generate -fcoverage-mapping \
           -Ilib -Igoogletest/googletest/include -L build tests/utest-product.cpp -o tests -lgtest -lgtest_main -pthread
+          ls
 
 
       - name: Run Tests (Generate .profraw)
