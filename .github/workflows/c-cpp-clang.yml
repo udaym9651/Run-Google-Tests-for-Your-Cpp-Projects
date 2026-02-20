@@ -14,18 +14,20 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y clang llvm libgtest-dev
-
-
-      - name: Build with Coverage Flags
-        run: |
           cd /usr/src/gtest
           sudo cmake -S . -B build
           sudo cmake --build build
           sudo cp build/lib/*.a /usr/local/lib/
+
+
+      - name: Build with Coverage Flags
+        run: |          
+          mkdir build
+          cd build
           clang++ -fprofile-instr-generate -fcoverage-mapping \
             -I../lib ../src/*.cpp ../src/**/*.cpp -o app
           clang++ -fprofile-instr-generate -fcoverage-mapping \
-            ../tests/utest-product.cpp -o tests -lgtest -lgtest_main -pthread
+            -I../lib ..I/src ../tests/utest-product.cpp -o tests -lgtest -lgtest_main -pthread
 
 
       - name: Run Tests (Generate .profraw)
