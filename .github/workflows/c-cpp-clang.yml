@@ -20,7 +20,7 @@ jobs:
           mkdir build
           cd build
           clang++ -fprofile-instr-generate -fcoverage-mapping \
-            -I../lib ../src/*.cpp -o app
+            -I../lib ../src/*.cpp ../src/**/*.cpp -o app
           clang++ -fprofile-instr-generate -fcoverage-mapping \
             -I../lib ../tests/utest-product.cpp -o tests -lgtest -lgtest_main -pthread
 
