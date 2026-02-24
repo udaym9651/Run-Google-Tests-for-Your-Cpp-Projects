@@ -1,8 +1,8 @@
 # $ cmake --version
 cmake_minimum_required(VERSION 3.5)
 
-set(CMAKE_C_COMPILER "/usr/bin/gcc-14")
-set(CMAKE_CXX_COMPILER "/usr/bin/g++-14")
+set(CMAKE_C_COMPILER "/usr/bin/gcc-15")
+set(CMAKE_CXX_COMPILER "/usr/bin/g++-15")
 
 # Set the project name
 project (Googletest_POC)
