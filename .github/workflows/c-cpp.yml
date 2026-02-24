@@ -42,7 +42,7 @@ jobs:
         gcov -v
         lcov --version
         lcov --capture --directory build --gcov-tool /usr/bin/gcov-14 --output-file coverage.info 
-        lcov --remove coverage.info '/usr/*' '*/googletest/*' --output-file coverage.info --ignore-errors mismatch
+        lcov --remove coverage.info '/usr/*' '*/googletest/*' --output-file coverage.info --ignore-errors inconsistent
         genhtml coverage.info --output-directory coverage_html
 
     - name: Upload Coverage HTML
