@@ -1,6 +1,9 @@
 # $ cmake --version
 cmake_minimum_required(VERSION 3.5)
 
+export CC=/usr/local/bin/gcc 
+export CXX=/usr/local/bin/g++
+
 # Set the project name
 project (Googletest_POC)
 
