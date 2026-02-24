@@ -41,8 +41,8 @@ jobs:
         apt-cache madison lcov
         gcov -v
         lcov --version
-        lcov --capture --directory build --gcov-tool /usr/bin/gcov-14 --output-file coverage.info
-        lcov --remove coverage.info '/usr/*' '*/googletest/*' --output-file coverage.info
+        lcov --capture --directory build --gcov-tool /usr/bin/gcov-14 --output-file coverage.info 
+        lcov --remove coverage.info '/usr/*' '*/googletest/*' --output-file coverage.info --ignore-errors mismatch
         genhtml coverage.info --output-directory coverage_html
 
     - name: Upload Coverage HTML
