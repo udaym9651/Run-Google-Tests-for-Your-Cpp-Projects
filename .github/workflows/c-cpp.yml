@@ -37,15 +37,15 @@ jobs:
         cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Debug \
               -DCMAKE_CXX_FLAGS="--coverage" -DCMAKE_C_FLAGS="--coverage"
         cmake --build build --parallel
-        lcov --capture --initial --directory build --gcov-tool /usr/bin/gcov-14 --output-file base.info --ignore-errors mismatch
-        lcov --remove base.info '/usr/*' '*/googletest/*' --output-file base.info
+        #lcov --capture --initial --directory build --gcov-tool /usr/bin/gcov-14 --output-file base.info --ignore-errors mismatch
+        #lcov --remove base.info '/usr/*' '*/googletest/*' --output-file base.info
         ctest --output-on-failure --test-dir build
         apt-cache madison lcov
         gcov -v
         lcov --version
         lcov --capture --directory build --gcov-tool /usr/bin/gcov-14 --output-file coverage.info --ignore-errors mismatch
-        lcov --add-tracefile base.info --add-tracefile coverage.info --output-file total.info
-        lcov --remove total.info '/usr/*' '*/googletest/*' --output-file total.info
+        #lcov --add-tracefile base.info --add-tracefile coverage.info --output-file total.info
+        lcov --remove coverage.info '/usr/*' '*/googletest/*' --output-file coverage.info
         genhtml coverage.info --output-directory coverage_html
 
     - name: Upload Coverage HTML
