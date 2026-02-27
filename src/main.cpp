@@ -9,6 +9,7 @@ int main (){
     auto c1 = p.computeA(10,20);
     auto c2 = p.computeB(10,20,30);
     auto c3 = p.computeC(10,20,30,40);
+    auto c4 = p.computeF(10,20,30,40);
     std::cout << "c1=" << c1 << " c2=" << c2 << "\n";
 
 }
