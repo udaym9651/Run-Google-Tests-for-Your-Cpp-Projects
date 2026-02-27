@@ -22,6 +22,7 @@ set(SOURCES
     src/main.cpp
     src/product.cpp
     src/multiply/multiply.cpp
+    src/multiply/multiplynotest.cpp
 )
 
 # Add an executable with the above sources
@@ -40,6 +41,7 @@ enable_testing()
 add_executable(run_opt_test
   src/product.cpp
   src/multiply/multiply.cpp
+  src/multiply/multiplynotest.cpp
   tests/utest-product.cpp
 )
 
